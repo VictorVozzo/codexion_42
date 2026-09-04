@@ -6,7 +6,7 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 14:17:57 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 11:24:37 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/04 16:49:11 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void *start_simulation(void *arg)
 
 	coder = (t_coder *)arg;
 
-	while (coder->hub->args->number_of_compiles_required != coder->total_compiles)
+	while (1)
 	{
 		pthread_mutex_lock(&coder->hub->monitor_mutex);
 		if (coder->hub->monitor_finished == true)
