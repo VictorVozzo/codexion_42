@@ -6,7 +6,7 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 14:17:57 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/07 09:24:27 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 14:07:28 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	init_simulation(t_hub *hub)
 	hub->start_time = get_time_in_ms();
 	hub->simulation_running = true;
 	start_monitor_thread(hub);
+	usleep(1000);
 	start_coders_threads(hub);
 	join_coders_threads(hub);
 	join_monitor_thread(hub);
