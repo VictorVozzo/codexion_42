@@ -6,13 +6,13 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 11:08:21 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 15:08:40 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 10:09:20 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static int	is_integer_gt_get_zero(char *str, char *flag_get_zero)
+static int	is_integer_gt_zero(char *str)
 {
 	int			i;
 	long long	n;
@@ -32,8 +32,6 @@ static int	is_integer_gt_get_zero(char *str, char *flag_get_zero)
 			return (0);
 		i++;
 	}
-	if (strcmp(flag_get_zero, "get_zero") != 0 && n == 0)
-		return (0);
 	return (1);
 }
 
@@ -41,9 +39,10 @@ int	args_size_verif(int number_args)
 {
 	if (number_args != 9)
 	{
-		fprintf(stderr, "Expected 8 arguments, got %d.\n"
+		fprintf(stderr,
+			"Expected 8 arguments, got %d.\n"
 			"\n1º required argument: number_of_coders "
-			"(must be an integer greater than 0)."
+			"(must be an integer greater or equal than 0)."
 			"\n2º required argument: time_to_burnout (ms) "
 			"(must be an integer greater or equal than 0)."
 			"\n3º required argument: time_to_compile (ms) "
@@ -83,27 +82,27 @@ static void	copy_error_msg(char *error_msg, char *new_msg)
 
 static void	args_verif_auxil(char **args, char *error_msg)
 {
-	if (!is_integer_gt_get_zero(args[1], "get_zero"))
+	if (!is_integer_gt_zero(args[1]))
 		copy_error_msg(error_msg,
 			"number_of_coders "
 			"must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[2], "get_zero"))
+	if (!is_integer_gt_zero(args[2]))
 		copy_error_msg(error_msg,
 			"time_to_burnout (ms) must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[3], "get_zero"))
+	if (!is_integer_gt_zero(args[3]))
 		copy_error_msg(error_msg,
 			"time_to_compile (ms) must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[4], "get_zero"))
+	if (!is_integer_gt_zero(args[4]))
 		copy_error_msg(error_msg,
 			"time_to_debug (ms) must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[5], "get_zero"))
+	if (!is_integer_gt_zero(args[5]))
 		copy_error_msg(error_msg,
 			"time_to_refactor (ms) must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[6], "get_zero"))
+	if (!is_integer_gt_zero(args[6]))
 		copy_error_msg(error_msg,
 			"number_of_compiles_required "
 			"must be an integer >= 0\n");
-	if (!is_integer_gt_get_zero(args[7], "get_zero"))
+	if (!is_integer_gt_zero(args[7]))
 		copy_error_msg(error_msg,
 			"dongle_cooldown (ms) must be an integer >= 0\n");
 	if (strcmp(args[8], "fifo") != 0 && strcmp(args[8], "edf") != 0)

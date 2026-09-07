@@ -6,7 +6,7 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 10:30:04 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/03 16:42:33 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 09:45:42 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	main(int argc, char **argv)
 		return (1);
 	arguments = create_t_args(argv);
 	if (!arguments)
-		return(1);
+		return (1);
 	hub = create_hub(arguments);
 	if (!hub)
-		return(1);
+		return (1);
 	init_simulation(hub);
 	free_all(hub);
 }

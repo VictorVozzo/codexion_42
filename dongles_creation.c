@@ -6,13 +6,13 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 10:30:04 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 11:18:21 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 09:24:35 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void clean_mutex_cond_dongles(int index, t_dongle *dongles_array)
+void	clean_mutex_cond_dongles(int index, t_dongle *dongles_array)
 {
 	while (index != -1)
 	{
@@ -23,10 +23,10 @@ void clean_mutex_cond_dongles(int index, t_dongle *dongles_array)
 	free(dongles_array);
 }
 
-t_dongle *create_dongles(t_args *args)
+t_dongle	*create_dongles(t_args *args)
 {
-	int i;
-	t_dongle *dongles_array;
+	int			i;
+	t_dongle	*dongles_array;
 
 	dongles_array = malloc(args->number_of_coders * sizeof(t_dongle));
 	if (!dongles_array)
@@ -38,7 +38,7 @@ t_dongle *create_dongles(t_args *args)
 			return (clean_mutex_cond_dongles(i - 1, dongles_array), NULL);
 		if (pthread_cond_init(&dongles_array[i].cond, NULL) != 0)
 			return (pthread_mutex_destroy(&dongles_array[i].mutex),
-					clean_mutex_cond_dongles(i - 1, dongles_array), NULL);
+				clean_mutex_cond_dongles(i - 1, dongles_array), NULL);
 		dongles_array[i].available = true;
 		dongles_array[i].time_available = 0;
 		dongles_array[i].coder_queue[0] = NULL;

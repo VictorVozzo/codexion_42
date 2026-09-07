@@ -6,18 +6,17 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 14:17:57 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 16:49:11 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 09:24:27 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void *start_simulation(void *arg)
+static void	*start_simulation(void *arg)
 {
-	t_coder *coder;
+	t_coder	*coder;
 
 	coder = (t_coder *)arg;
-
 	while (1)
 	{
 		pthread_mutex_lock(&coder->hub->monitor_mutex);
@@ -32,9 +31,9 @@ static void *start_simulation(void *arg)
 	return (NULL);
 }
 
-static int join_coders_threads(t_hub *hub)
+static int	join_coders_threads(t_hub *hub)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < hub->args->number_of_coders)
@@ -46,22 +45,22 @@ static int join_coders_threads(t_hub *hub)
 	return (0);
 }
 
-static int start_coders_threads(t_hub *hub)
+static int	start_coders_threads(t_hub *hub)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < hub->args->number_of_coders)
 	{
 		if (pthread_create(&hub->coders[i].thread_id, NULL, start_simulation,
-						   &hub->coders[i]) != 0)
+				&hub->coders[i]) != 0)
 			return (-1);
 		i++;
 	}
 	return (0);
 }
 
-void init_simulation(t_hub *hub)
+void	init_simulation(t_hub *hub)
 {
 	hub->start_time = get_time_in_ms();
 	hub->simulation_running = true;

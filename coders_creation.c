@@ -6,13 +6,13 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 10:30:04 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 11:17:54 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 09:24:21 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void clean_mutex_coders(int index, t_coder *coders_array)
+void	clean_mutex_coders(int index, t_coder *coders_array)
 {
 	while (index != -1)
 	{
@@ -22,10 +22,10 @@ void clean_mutex_coders(int index, t_coder *coders_array)
 	free(coders_array);
 }
 
-t_coder *create_coders(t_hub *hub)
+t_coder	*create_coders(t_hub *hub)
 {
-	int i;
-	t_coder *coders_array;
+	int		i;
+	t_coder	*coders_array;
 
 	coders_array = malloc(hub->args->number_of_coders * sizeof(t_coder));
 	if (!coders_array)

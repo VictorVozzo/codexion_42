@@ -6,13 +6,13 @@
 /*   By: vivozzo- <vivozzo-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/04 13:17:46 by vivozzo-          #+#    #+#             */
-/*   Updated: 2026/09/04 14:25:50 by vivozzo-         ###   ########.fr       */
+/*   Updated: 2026/09/07 10:15:10 by vivozzo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void debug_refactor(t_coder *coder)
+static void	debug_refactor(t_coder *coder)
 {
 	pthread_mutex_lock(&coder->right_dongle->mutex);
 	coder->right_dongle->available = true;
@@ -33,10 +33,10 @@ static void debug_refactor(t_coder *coder)
 	usleep(coder->hub->args->time_to_refactor * 1000);
 }
 
-static t_dongle *verify_second_dongle(t_coder *coder)
+static t_dongle	*verify_second_dongle(t_coder *coder)
 {
-	t_dongle *second_dongle;
-	
+	t_dongle	*second_dongle;
+
 	pthread_mutex_lock(&coder->hub->monitor_mutex);
 	if (coder->hub->monitor_finished == true)
 		return (pthread_mutex_unlock(&coder->hub->monitor_mutex), NULL);
@@ -46,13 +46,13 @@ static t_dongle *verify_second_dongle(t_coder *coder)
 	else
 		second_dongle = coder->left_dongle;
 	pthread_mutex_lock(&second_dongle->mutex);
-	if (second_dongle->coder_queue[0] != coder && 
-		second_dongle->coder_queue[1] != coder)
+	if (second_dongle->coder_queue[0] != coder
+		&& second_dongle->coder_queue[1] != coder)
 		queue_push(second_dongle, coder, coder->hub);
-	return(second_dongle);
+	return (second_dongle);
 }
 
-static int get_second_dongle_auxil(t_coder *coder, t_dongle *second_dongle)
+static int	get_second_dongle_auxil(t_coder *coder, t_dongle *second_dongle)
 {
 	second_dongle->available = false;
 	queue_pop(second_dongle, coder->hub);
@@ -68,24 +68,24 @@ static int get_second_dongle_auxil(t_coder *coder, t_dongle *second_dongle)
 	return (1);
 }
 
-int get_second_dongle(t_coder *coder)
+int	get_second_dongle(t_coder *coder)
 {
-	t_dongle *second_dongle;
+	t_dongle	*second_dongle;
 
 	second_dongle = verify_second_dongle(coder);
 	if (!second_dongle)
-		return(0);
-	while (!(second_dongle->available == true && 
-		second_dongle->coder_queue[0] == coder && 
-		(get_time_in_ms() - second_dongle->time_available) >= 
-		coder->hub->args->dongle_cooldown))
+		return (0);
+	while (!(second_dongle->available == true
+			&& second_dongle->coder_queue[0] == coder
+			&& (get_time_in_ms() - second_dongle->time_available)
+			>= coder->hub->args->dongle_cooldown))
 	{
 		pthread_mutex_lock(&coder->hub->monitor_mutex);
 		if (coder->hub->monitor_finished == true)
-			return (pthread_mutex_unlock(&coder->hub->monitor_mutex), 
-			pthread_mutex_unlock(&second_dongle->mutex), 0);
+			return (pthread_mutex_unlock(&coder->hub->monitor_mutex),
+				pthread_mutex_unlock(&second_dongle->mutex), 0);
 		pthread_mutex_unlock(&coder->hub->monitor_mutex);
 		check_dongle_availability(coder, second_dongle);
 	}
-	return(get_second_dongle_auxil(coder, second_dongle));
+	return (get_second_dongle_auxil(coder, second_dongle));
 }
